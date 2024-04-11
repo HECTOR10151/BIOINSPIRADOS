@@ -31,20 +31,18 @@ if __name__ == '__main__':
     print("1.- Funcion x^2")
     print("2.- Funcion x-5/2+sin(x)")
     print("3.- Funcion 2x+1")
-
-    x = np.linspace(mini, maxi, 100)
     e=int(input('Ingresa el numero de  la funcion a utilizar por favor: '))
     if e == 1:
         print("\n\tHistograma de fn1 es: f(x)=x^2\n")
-        plt.plot(x, fn1(x))
-        plt.xlabel('Valores del arreglo')
-        plt.ylabel('Valores de la función')
-        plt.title('Histograma de fn1: f(x)=x*x')
-        plt.grid(True)
-        plt.show()
+        plt.plot(arr, fn1(np.array(arr)))
+        plt.xlabel('Valores del arreglo')#nombre del eje x
+        plt.ylabel('Valores de la función')#nombre del eje y
+        plt.title('Histograma de fn1: f(x)=x*x')#titulo del histograma
+        plt.grid(True)#cuadricula activada
+        plt.show()#mostrar el histograma
     elif e == 2:
         print("\n\tHistograma de fn2 es f(x)=(x - 5.0 / 2.0 + sin(x))\n")
-        plt.plot(x, fn2(x))
+        plt.plot(arr, fn2(np.array(arr)))
         plt.xlabel('Valores del arreglo')
         plt.ylabel('Valores de la función')
         plt.title('Histograma de fn1: x-5/2+sin(x)')
@@ -52,7 +50,7 @@ if __name__ == '__main__':
         plt.show()
     elif e == 3:
         print("\n\tHistograma de fn3 es f(x)=(3 * n) - 5\n")
-        plt.plot(x, fn3(x))
+        plt.plot(arr, fn3(np.array(arr)))
         plt.xlabel('Valores del arreglo')
         plt.ylabel('Valores de la función')
         plt.title('Histograma de fn1: f(x)=(3 * n) - 5')
