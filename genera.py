@@ -2,57 +2,74 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 import math
+
 def fn1(x):
     return x*x
+
 def fn2(x):
-    return x - 5/2 + np.sin(x)
+    return (x - 5.0) / (2.0 + np.sin(x))
+
 def fn3(x):
-    return 2*x+1
+    return 2*x + 1
+
 def binario(x):
-    bin,i=0,1
-    while (n>0):
-        bin+=i*(n%2)
-        n//=2
-        i*=10
+    bin, i = 0, 1
+    while (x > 0):
+        bin += i*(x%2)
+        x //= 2
+        i *= 10
     return bin
+
 if __name__ == '__main__':
-    
-    tam=int(input('Ingrese el tamaño del arreglo: '))
-    min=int(input('Ingrese el valor mínimo: '))
-    max=int(input('Ingrese el valor máximo: '))
-    arr=[random.randint(min,max) for i in range(tam)]#bucle de numero aleatorios con los rangos
-    arr.sort()#ordenar el arreglo
-    maxi=arr[-1]#el maximo encontrado
-    mini=arr[0]#el minimo encontrado
-    print("Arreglo ordenado y en decimal:",end="")
+    tam = int(input('Ingrese el tamaño del arreglo: '))
+    min_val = int(input('Ingrese el valor mínimo: '))
+    max_val = int(input('Ingrese el valor máximo: '))
+    arr = [random.randint(min_val, max_val) for _ in range(tam)]
+    arr.sort()
+    bin = [binario(num) for num in arr]
+    print("Arreglo ordenado y en decimal:", end="")
     for num in arr:
-        print("[{}]".format(num),end=" ")#imprimir el arreglo
-    print("\nValor maximo",max)#imprimir el valor maximo
+        print("[{}]".format(num), end=" ")
+    print("\n")
+    print("Arreglo ordenado y en BINARIO:", end="")
+    for num in bin:
+        print("[{}]".format(num), end=" ")  
+    print("\nValor máximo", max_val)
     print("1.- Funcion x^2")
     print("2.- Funcion x-5/2+sin(x)")
     print("3.- Funcion 2x+1")
-    e=int(input('Ingresa el numero de  la funcion a utilizar por favor: '))
+    e = int(input('Ingresa el número de la función a utilizar por favor: '))
+
+    # Solicitar al usuario si desea maximizar o minimizar
+    opcion = input("¿Desea maximizar (M) o minimizar (m) la función? ")
     if e == 1:
-        print("\n\tHistograma de fn1 es: f(x)=x^2\n")
-        plt.plot(arr, fn1(np.array(arr)))
-        plt.xlabel('Valores del arreglo')#nombre del eje x
-        plt.ylabel('Valores de la función')#nombre del eje y
-        plt.title('Histograma de fn1: f(x)=x*x')#titulo del histograma
-        plt.grid(True)#cuadricula activada
-        plt.show()#mostrar el histograma
+        fn = fn1
     elif e == 2:
-        print("\n\tHistograma de fn2 es f(x)=(x - 5.0 / 2.0 + sin(x))\n")
-        plt.plot(arr, fn2(np.array(arr)))
-        plt.xlabel('Valores del arreglo')
-        plt.ylabel('Valores de la función')
-        plt.title('Histograma de fn1: x-5/2+sin(x)')
-        plt.grid(True)
-        plt.show()
+        fn = fn2
     elif e == 3:
-        print("\n\tHistograma de fn3 es f(x)=(3 * n) - 5\n")
-        plt.plot(arr, fn3(np.array(arr)))
-        plt.xlabel('Valores del arreglo')
-        plt.ylabel('Valores de la función')
-        plt.title('Histograma de fn1: f(x)=(3 * n) - 5')
-        plt.grid(True)
-        plt.show()
+        fn = fn3
+    else:
+        print("Opción no válida.")
+        exit()
+
+    arr_fn = fn(np.array(arr))
+    if opcion.lower() == 'm':
+        punto = arr[np.argmin(arr_fn)]
+        valor = np.min(arr_fn)
+        label = f'Mínimo en x={punto}'
+    elif opcion.lower() == 'M':
+        punto = arr[np.argmax(arr_fn)]
+        valor = np.max(arr_fn)
+        label = f'Máximo en x={punto}'
+    else:
+        print("Opción no válida.")
+        exit()
+
+    plt.plot(arr, arr_fn)
+    plt.scatter(punto, valor, color='red', label=label)
+    plt.xlabel('Valores del arreglo')
+    plt.ylabel('Valores de la función')
+    plt.title(f'Histograma de fn{e}')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
